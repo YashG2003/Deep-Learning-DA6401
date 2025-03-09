@@ -1,6 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from keras.datasets import fashion_mnist
+import wandb
+
+# Initialize W&B run
+wandb.init(project="fashion-mnist-nn", name="dataset_samples")
 
 # Load dataset
 (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
@@ -11,8 +15,8 @@ class_names = [
     "Sandal", "Shirt", "Sneaker", "Bag", "Ankle boot"
 ]
 
-# Plot 1 sample per class
-plt.figure(figsize=(10, 5))
+# Create plot
+fig = plt.figure(figsize=(10, 5))
 for i in range(10):
     idx = np.where(train_labels == i)[0][0]  # Get index of first image of class i
     plt.subplot(2, 5, i + 1)
@@ -21,4 +25,11 @@ for i in range(10):
     plt.axis('off')
 
 plt.tight_layout()
+
+# Log to W&B
+wandb.log({"Dataset Samples": wandb.Image(fig)})
+plt.close(fig)  # Clean up memory
+
+# Show plot locally
 plt.show()
+wandb.finish()
