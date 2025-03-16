@@ -1,8 +1,8 @@
 import numpy as np
 import os
-from keras.datasets import fashion_mnist
+from keras.datasets import fashion_mnist, mnist
 
-def create_splits():
+def create_splits(dataset_name):
     # List of required files
     required_files = [
         "train_images.npy", "train_labels.npy",
@@ -17,7 +17,10 @@ def create_splits():
     
     # --- Only execute below if files are missing ---
     # Load dataset
-    (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
+    if dataset_name=='fashion_mnist':
+        (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
+    elif dataset_name=='mnist':
+        (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
 
     # Reshape and normalize images
     train_images = train_images.reshape(-1, 784) / 255.0
@@ -55,7 +58,7 @@ def create_splits():
     return True
 
 if __name__ == "__main__":
-    if create_splits():
+    if create_splits(dataset_name='fashion_mnist'):
         print("Dataset splits saved successfully!")
     else:
         print("Dataset files already exist. Skipping creation.")

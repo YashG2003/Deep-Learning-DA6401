@@ -1,6 +1,6 @@
 import wandb
 import numpy as np
-from model import NeuralNetwork, load_data
+from model import NeuralNetwork, load_splitted_data
 
 def train_model():
     wandb.init()
@@ -9,7 +9,7 @@ def train_model():
                      f"bs_{config.batch_size}_ac_{config.activation}")
     
     # Load data
-    train_images, train_labels, val_images, val_labels, _, _ = load_data()
+    train_images, train_labels, val_images, val_labels, _, _ = load_splitted_data()
     
     # Initialize model
     model = NeuralNetwork(config)
@@ -74,4 +74,4 @@ sweep_config = {
 
 if __name__ == "__main__":
     sweep_id = wandb.sweep(sweep_config, project="fashion-mnist-nn")
-    wandb.agent(sweep_id, function=train_model, count=1)
+    wandb.agent(sweep_id, function=train_model, count=5)

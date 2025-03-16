@@ -3,41 +3,41 @@ import wandb
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 import json
-from model import NeuralNetwork, load_data  
+from model import NeuralNetwork, load_splitted_data  
 
-# ✅ Replace this with the correct sweep ID from W&B UI
+# Replace this with the correct sweep ID from W&B UI
 SWEEP_ID = "dx34l1mw"
 
-# ✅ Load dataset using model.py's function
-train_images, train_labels, val_images, val_labels, test_images, test_labels = load_data()
+# Load dataset using model.py's function
+train_images, train_labels, val_images, val_labels, test_images, test_labels = load_splitted_data()
 
-# ✅ Initialize W&B API
+# Initialize W&B API
 api = wandb.Api()
 
-# ✅ Fetch runs from correct project
+# Fetch runs from correct project
 runs = api.runs("yashgawande25-indian-institute-of-technology-madras/fashion-mnist-nn", 
                filters={"sweep": SWEEP_ID})
 
 if len(runs) == 0:
     raise ValueError("No runs found for this sweep. Check if the Sweep ID is correct.")
 
-# ✅ Find the best run
+# Find the best run
 best_run = max(runs, key=lambda run: run.summary.get("val_acc", 0))
 best_config = best_run.config
 
 print("Best Hyperparameters:", json.dumps(best_config, indent=4))
 
-# ✅ Initialize W&B for new run
+# Initialize W&B for new run
 wandb.init(project="fashion-mnist-nn", 
           name="try",
           config=best_config)
 
-# ✅ Create model instance using best config
+# Create model instance using best config
 model = NeuralNetwork(wandb.config)
 batch_size = wandb.config.batch_size
 num_batches = train_images.shape[0] // batch_size
 
-# ✅ Training loop using class methods
+# Training loop using class methods
 for epoch in range(wandb.config.epochs):
     total_train_loss, total_train_acc = 0, 0
 
@@ -69,7 +69,7 @@ for epoch in range(wandb.config.epochs):
         "val_acc": val_acc
     })
 
-# ✅ Test evaluation using class method
+# Test evaluation using class method
 test_loss, test_acc = model.evaluate(test_images, test_labels)
 test_preds = np.argmax(model.forward(test_images), axis=1)
 test_labels_true = np.argmax(test_labels, axis=1)

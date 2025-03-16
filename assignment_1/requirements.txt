@@ -1,0 +1,5 @@
+numpy>=1.21.0
+matplotlib>=3.5.0
+keras>=2.8.0
+scikit-learn>=1.0.0
+wandb>=0.12.0

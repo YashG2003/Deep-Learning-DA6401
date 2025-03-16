@@ -1,3 +1,4 @@
+# code for splitting data, loading it and running sweep
 import subprocess
 
 def main():

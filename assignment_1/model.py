@@ -11,7 +11,7 @@ class NeuralNetwork:
         else:
             # Default to original behavior
             self.layers = [784] + [config.hidden_size] * config.num_layers + [10]
-        print(self.layers)
+        
         self.initialize_weights()
         self.initialize_optimizer_states()
 
@@ -71,6 +71,11 @@ class NeuralNetwork:
             # Compute gradients
             dW = np.dot(self.activations[i].T, dH) / y_true.shape[0]
             dB = np.sum(dH, axis=0, keepdims=True) / y_true.shape[0]
+            
+            # Add weight decay (L2 regularization) to the gradients
+            if hasattr(self.config, 'weight_decay'):
+                dW += self.config.weight_decay * self.weights[i]
+            
             grads_W.insert(0, dW)
             grads_B.insert(0, dB)
             
@@ -193,7 +198,7 @@ class NeuralNetwork:
         return loss, acc
 
 
-def load_data():
+def load_splitted_data():
     """Load pre-split dataset with verification"""
     files = [
         "train_images.npy", "train_labels.npy",
