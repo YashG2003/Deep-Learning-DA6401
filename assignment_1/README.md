@@ -83,6 +83,7 @@ To train the model with default hyperparameters, run:
 python train.py --wandb_entity myname --wandb_project myprojectname
 ```
 wandb_entity: Wandb Entity (username) used to track experiments in the Weights & Biases dashboard.
+
 wandb_project: Project name used to track experiments in Weights & Biases dashboard
 
 You can customize the training process by passing command-line arguments. For example:
