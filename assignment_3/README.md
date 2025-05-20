@@ -1,4 +1,4 @@
-# Assignment 3
+# ME21B062 Assignment 3
 # English to Hindi Transliteration
 
 This project implements sequence-to-sequence models for transliteration between Latin script (English) and Devanagari script (Hindi) using the Dakshina dataset. Two approaches are implemented:
