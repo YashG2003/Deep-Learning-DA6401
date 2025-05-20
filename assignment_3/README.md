@@ -45,7 +45,7 @@ The dataset is available here https://github.com/google-research-datasets/dakshi
 
 ## Code Structure
 ```
-dakshina-transliteration/
+assignment_3/
 ├── data/                       # Data files, data loading and preprocessing
 ├── models/                     # Model architecture definitions
 ├── utils/                      # Training, evaluation, and visualization utilities
